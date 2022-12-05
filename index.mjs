@@ -26,7 +26,7 @@ const requestListener = async (req, res) => {
   const { url } = req;
   const [year, id] = url.split('/').slice(1, 3);
 
-  if(url === '' || url === '/') {
+  if (url === '' || url === '/') {
     res.writeHead(200, headers);
     res.end(JSON.stringify({
       message: 'online',
@@ -68,12 +68,20 @@ const requestListener = async (req, res) => {
         message: "OK",
       }));
     } catch (e) {
-      res.writeHead(500, headers);
-      res.end(JSON.stringify({
-        data: null,
-        error: true,
-        message: e.message,
-      }));
+      if (e.message === "Not found") {
+        res.writeHead(404, headers);
+        res.end(JSON.stringify({
+          error: true,
+          message: e.message,
+        }));
+      } else {
+        res.writeHead(500, headers);
+        res.end(JSON.stringify({
+          data: null,
+          error: true,
+          message: e.message,
+        }));
+      }
     }
   } else {
     res.writeHead(404, headers);
