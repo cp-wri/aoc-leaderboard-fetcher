@@ -17,8 +17,14 @@ const port = process.env.PORT;
 const requestListener = async (req, res) => {
   const { url } = req;
   const [year, id] = url.split('/').slice(1, 3);
-  
-  if (url === `/${year}/${id}/fetch`) {
+
+  if(url === '' || url === '/') {
+    res.writeHead(200);
+    res.end(JSON.stringify({
+      message: 'online',
+      error: false,
+    }));
+  } else if (url === `/${year}/${id}/fetch`) {
     try {
       await saveLeaderboard(id, year);
       res.writeHead(200);
