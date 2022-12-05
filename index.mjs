@@ -19,6 +19,7 @@ const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET',
   'Access-Control-Max-Age': 2592000,
+  'Content-Type': 'application/json'
 };
 
 const requestListener = async (req, res) => {
@@ -60,14 +61,14 @@ const requestListener = async (req, res) => {
       }
 
       const { json } = result;
-      res.writeHead(200, { 'Content-Type': 'application/json' }, headers);
+      res.writeHead(200, headers);
       res.end(JSON.stringify({
         data: json,
         error: false,
         message: "OK",
       }));
     } catch (e) {
-      res.writeHead(500, { 'Content-Type': 'application/json' }, headers);
+      res.writeHead(500, headers);
       res.end(JSON.stringify({
         data: null,
         error: true,
