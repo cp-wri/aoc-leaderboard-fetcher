@@ -53,19 +53,22 @@ const requestListener = async (req, res) => {
       await client.connect();
       const db = client.db(dbName);
       const collection = db.collection(collectionName);
-      const result = await collection.findOne({ id: parseInt(id), year: parseInt(year) });
+      const result = await collection.findOne({ id, year });
       logger.info(`fetched ${year}/${id}: ${result}`);
 
       if (!result) {
         throw new Error("Not found");
       }
 
-      const { json } = result;
+      const { _id, json, updated, inserted } = result;
       res.writeHead(200, headers);
       res.end(JSON.stringify({
         data: json,
         error: false,
         message: "OK",
+        updated,
+        inserted,
+        _id
       }));
     } catch (e) {
       if (e.message === "Not found") {
