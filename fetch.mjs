@@ -89,4 +89,5 @@ const main = async () => {
   process.exit(0);
 }
 
-main();
+export { fetchLeaderboard, saveLeaderboard };
+// main();
